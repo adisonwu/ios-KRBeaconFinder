@@ -22,13 +22,14 @@
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    // 關閉背景工作
     UIApplication *app = [UIApplication sharedApplication];
     __block UIBackgroundTaskIdentifier bgTask;
-    // 背景工作
     bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+        //派發非同步到主執行續
         dispatch_async(dispatch_get_main_queue(), ^{
+            // 進入背景後，關閉背景工作
             if (bgTask != UIBackgroundTaskInvalid)
             {
                 [app endBackgroundTask:bgTask];

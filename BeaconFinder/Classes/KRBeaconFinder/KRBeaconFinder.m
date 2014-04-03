@@ -62,7 +62,8 @@
 
 @synthesize uuid                      = _uuid;
 @synthesize identifier                = _identifier;
-
+@synthesize major                     = _major;
+@synthesize minor                     = _minor;
 @synthesize locationManager           = _locationManager;
 @synthesize beaconRegion              = _beaconRegion;
 @synthesize foundBeacons              = _foundBeacons;
@@ -93,7 +94,8 @@
     {
         _uuid       = nil;
         _identifier = nil;
-        
+        _major = nil;
+        _minor = nil;
         _notifyEntryStateOnDisplay = YES;
         _notifyOnEntry             = YES;
         _notifyOnExit              = YES;
@@ -240,7 +242,7 @@
 
 -(void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
-    NSLog(@"beacons : %@", beacons);
+    NSLog(@"243 beacons : %@", beacons);
     /*
      * @ Noted
      *   - 收到的 CLBeacon 訊息

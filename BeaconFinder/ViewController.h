@@ -10,13 +10,14 @@
 
 @class KRBeaconFinder;
 
-@interface ViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface ViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, weak) IBOutlet UISwitch *advertisingSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *rangingSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *bleScanningSwitch;
 @property (nonatomic, weak) IBOutlet UITableView *beaconTableView;
-
+@property (nonatomic) IBOutlet UITextField *major;
+@property (nonatomic) IBOutlet UITextField *minor;
 @property (nonatomic, strong) NSArray *detectedBeacons;
 
 @property (nonatomic, strong) KRBeaconFinder *beaconFinder;

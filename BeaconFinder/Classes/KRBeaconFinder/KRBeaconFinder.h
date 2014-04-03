@@ -26,7 +26,8 @@ typedef void(^FoundBeaconsHandler) (NSArray *foundBeacons, CLBeaconRegion *beaco
 //Your Apple Certificated Beacon ID
 @property (nonatomic, strong) NSString *uuid;
 @property (nonatomic, strong) NSString *identifier;
-
+@property (nonatomic, strong) NSNumber *major;
+@property (nonatomic, strong) NSNumber *minor;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLBeaconRegion *beaconRegion;
 @property (nonatomic, strong) NSArray *foundBeacons;
@@ -42,6 +43,11 @@ typedef void(^FoundBeaconsHandler) (NSArray *foundBeacons, CLBeaconRegion *beaco
 @property (nonatomic, copy) ScanningEnumerator bleScanningEnumerator;
 
 #pragma --mark Blick Setters
+/**
+ *  找到 beacon 的處理方法
+ *
+ *  @param _theFoundBeaconsHandler <#_theFoundBeaconsHandler description#>
+ */
 -(void)setFoundBeaconsHandler:(FoundBeaconsHandler)_theFoundBeaconsHandler;
 -(void)setBleScanningEnumerator:(ScanningEnumerator)_theBleScanningEnumerator;
 

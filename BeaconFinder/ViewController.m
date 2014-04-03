@@ -23,6 +23,11 @@
 
 @synthesize beaconFinder      = _beaconFinder;
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -38,17 +43,21 @@
     [self.bleScanningSwitch addTarget:self
                                action:@selector(changeScanningState:)
                      forControlEvents:UIControlEventValueChanged];
-    
+    // 弱指針
     __weak typeof(self) _weakSelf = self;
-    
+    // 設定 beacon finder
     self.beaconFinder        = [KRBeaconFinder sharedFinder];
     _beaconFinder.uuid       = @"B9407F30-F5F8-466E-AFF9-25556B57FE6D";
     _beaconFinder.identifier = @"com.kalvar.ibeacons";
+    
+    // 找到 beacon 時的處理方法
     [_beaconFinder setFoundBeaconsHandler:^(NSArray *foundBeacons, CLBeaconRegion *beaconRegion)
     {
+        NSLog(@"51 %@", beaconRegion);
         _weakSelf.detectedBeacons = foundBeacons;
         [_weakSelf.beaconTableView reloadData];
     }];
+    // BLE 掃描？
     [_beaconFinder setBleScanningEnumerator:^(CBPeripheral *peripheral, NSDictionary *advertisements, NSNumber *RSSI)
     {
         NSLog(@"I see an advertisement with identifer: %@, state: %d, name: %@, services: %@,  description: %@",
@@ -68,15 +77,15 @@
 }
 
 #pragma --mark Switch Actions
--(void)changeAdvertisingState:(id)sender
-{
+// 切換 beacon 廣播
+-(void)changeAdvertisingState:(id)sender {
     UISwitch *theSwitch = (UISwitch *)sender;
-    if (theSwitch.on)
-    {
+    if (theSwitch.on) {
+        _beaconFinder.major = @([self.major.text intValue]);
+        _beaconFinder.minor = @([self.minor.text intValue]);
         [_beaconFinder bleAdversting];
     }
-    else
-    {
+    else {
         [_beaconFinder bleStopAdversting];
     }
 }
@@ -169,8 +178,14 @@
             openWhat        = @"Gone";
             break;
     }
-    defaultCell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ • %@ • %f • %li • %@",
-                                        beacon.major.stringValue, beacon.minor.stringValue, proximityString, beacon.accuracy, (long)beacon.rssi, openWhat];
+//    defaultCell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ • %@ • %f • %li • %@",
+    defaultCell.detailTextLabel.text = [NSString stringWithFormat:@"%@ • %f • %li • %@",
+                                        //                                        beacon.major.stringValue, // 主號
+//                                        beacon.minor.stringValue, // 次號
+                                        proximityString, // 近接字串，近、很近、遠、未知
+                                        beacon.accuracy, // 準確度？
+                                        (long)beacon.rssi, // rssi
+                                        openWhat]; // 用什麼開啟
     defaultCell.detailTextLabel.textColor = [UIColor grayColor];
     
     return defaultCell;
