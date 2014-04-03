@@ -26,6 +26,7 @@
 {
     UIApplication *app = [UIApplication sharedApplication];
     __block UIBackgroundTaskIdentifier bgTask;
+    // 背景工作
     bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
         dispatch_async(dispatch_get_main_queue(), ^{
             if (bgTask != UIBackgroundTaskInvalid)
